@@ -31,6 +31,7 @@ def main():
     swp.download_and_save_zip()
     swp.unzip_and_remove()
     swp.read_file_and_send_syslog()
+    swp.clear_directory()
 
 class SWP:
     def __init__ (self):
@@ -103,6 +104,19 @@ class SWP:
             hash_file.write(last_line_hash)
 
         print(f"Log file {self.syslog_file} sent as syslog messages to remote server")
+
+    def clear_directory(self):
+        try:
+            directory_path = "tmp/"
+            for filename in os.listdir(directory_path):
+                file_path = os.path.join(directory_path, filename)
+                # Check if it is a file and delete it
+                if os.path.isfile(file_path):
+                    os.remove(file_path)
+                    print(f"Deleted file: {file_path}")
+            print("All files cleared from the directory.")
+        except Exception as e:
+            print(f"An error occurred: {e}")
 
     def create_hash(input_string):
         # Create a new sha256 hash object
